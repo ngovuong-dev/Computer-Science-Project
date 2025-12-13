@@ -1,0 +1,162 @@
+{
+    "subjects": {
+        "MATH1": {
+            "name": "Giải tích 1"
+        },
+        "MATH2": {
+            "name": "Giải tích 2"
+        },
+        "MATH3": {
+            "name": "Đại số tuyến tính"
+        },
+        "PHYS1": {
+            "name": "Vật lý đại cương"
+        },
+        "ENG01": {
+            "name": "Tiếng Anh sơ cấp"
+        },
+        "ENG02": {
+            "name": "Tiếng Anh chuyên ngành CNTT"
+        },
+        "IT001": {
+            "name": "Nhập môn Công nghệ thông tin"
+        },
+        "IT002": {
+            "name": "Nhập môn Lập trình (C/C++)"
+        },
+        "IT003": {
+            "name": "Kỹ thuật Lập trình"
+        },
+        "PHI01": {
+            "name": "Triết học Mác - Lênin"
+        },
+        "MIL01": {
+            "name": "Giáo dục Quốc phòng"
+        },
+        "IT004": {
+            "name": "Cấu trúc Dữ liệu & Giải thuật"
+        },
+        "IT005": {
+            "name": "Kiến trúc Máy tính & Hợp ngữ"
+        },
+        "IT006": {
+            "name": "Mạng máy tính căn bản"
+        },
+        "IT007": {
+            "name": "Hệ điều hành"
+        },
+        "IT008": {
+            "name": "Cơ sở dữ liệu (SQL)"
+        },
+        "MATH4": {
+            "name": "Toán Rời rạc"
+        },
+        "MATH5": {
+            "name": "Xác suất thống kê"
+        },
+        "SW001": {
+            "name": "Lập trình Hướng đối tượng (OOP)"
+        },
+        "SW002": {
+            "name": "Phân tích & Thiết kế Hệ thống"
+        },
+        "WEB01": {
+            "name": "Thiết kế Web (HTML/CSS/JS)"
+        },
+        "SW003": {
+            "name": "Kiểm thử phần mềm (Testing)"
+        },
+        "SW004": {
+            "name": "Quản lý dự án phần mềm"
+        },
+        "SW005": {
+            "name": "Design Patterns"
+        },
+        "WEB02": {
+            "name": "Lập trình Web Backend (NodeJS/Java)"
+        },
+        "WEB03": {
+            "name": "Lập trình Frontend Framework (React)"
+        },
+        "MOB01": {
+            "name": "Lập trình Di động cơ bản (Android)"
+        },
+        "MOB02": {
+            "name": "Lập trình Di động đa nền tảng (Flutter)"
+        },
+        "DA001": {
+            "name": "Trí tuệ nhân tạo (AI)"
+        },
+        "DA002": {
+            "name": "Học máy (Machine Learning)"
+        },
+        "DA003": {
+            "name": "Khai phá dữ liệu (Data Mining)"
+        },
+        "DA004": {
+            "name": "Big Data"
+        },
+        "SEC01": {
+            "name": "An toàn thông tin"
+        },
+        "SEC02": {
+            "name": "Mật mã học"
+        },
+        "NET02": {
+            "name": "Quản trị mạng Linux"
+        },
+        "PRJ01": {
+            "name": "Đồ án cơ sở ngành"
+        },
+        "PRJ02": {
+            "name": "Đồ án chuyên ngành"
+        },
+        "SOFT1": {
+            "name": "Kỹ năng làm việc nhóm"
+        },
+        "SOFT2": {
+            "name": "Kỹ năng thuyết trình"
+        },
+        "INTERN": {
+            "name": "Thực tập Doanh nghiệp"
+        },
+        "THESIS": {
+            "name": "Khóa luận Tốt nghiệp (Capstone Project)"
+        }
+    },
+    "edges": [
+        ["MATH1", "MATH2"],
+        ["MATH1", "PHYS1"],
+        ["MATH3", "DA002"],
+        ["MATH4", "IT004"],
+        ["MATH5", "DA003"],
+        ["IT001", "IT002"],
+        ["IT002", "IT003"],
+        ["IT003", "SW001"],
+        ["IT003", "IT004"],
+        ["IT002", "IT005"],
+        ["IT005", "IT007"],
+        ["IT006", "NET02"],
+        ["IT006", "WEB02"],
+        ["MATH4", "SEC02"],
+        ["IT002", "IT008"],
+        ["IT008", "WEB02"],
+        ["WEB01", "WEB03"],
+        ["WEB02", "WEB03"],
+        ["SW001", "MOB01"],
+        ["MOB01", "MOB02"],
+        ["IT004", "DA001"],
+        ["DA001", "DA002"],
+        ["DA002", "DA004"],
+        ["SW001", "SW005"],
+        ["SW002", "SW003"],
+        ["IT004", "PRJ01"],
+        ["IT008", "PRJ01"],
+        ["PRJ01", "PRJ02"],
+        ["WEB02", "PRJ02"],
+        ["MOB01", "PRJ02"],
+        ["PRJ02", "INTERN"],
+        ["INTERN", "THESIS"],
+        ["ENG02", "THESIS"]
+    ]
+}

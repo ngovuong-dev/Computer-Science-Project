@@ -44,3 +44,8 @@ Mở Terminal tại thư mục dự án và chạy lệnh:
 
 ```bash
 pip install PyQt6 networkx matplotlib
+```
+### Bước 2: Chạy chương trình
+Mở Terminal tại thư mục dự án và chạy lệnh:
+```bash
+python main.py

@@ -31,3 +31,28 @@ roadmap-manager/
 ├── data/                 # Thư mục chứa file roadmap.json
 ├── main.py               # File khởi chạy ứng dụng
 └── requirements.txt      # Danh sách thư viện
+
+
+
+RoadMap-Project/
+├── data/
+│   └── roadmap.json
+├── src/
+│   ├── algorithms/
+│   │   ├── __init__.py
+│   │   └── tarjan_algorithm.py
+│   ├── controllers/
+│   │   ├── __init__.py
+│   │   └── roadmap_controller.py
+│   ├── storage/
+│   │   ├── __init__.py
+│   │   └── file_manager.py
+│   └── ui/
+│       ├── widgets/
+│       │   ├── __init__.py
+│       │   └── graph_canvas.py
+│       ├── __init__.py
+│       └── main_window.py
+├── README.MD
+├── main.py
+└── requirements.txt

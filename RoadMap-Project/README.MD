@@ -18,7 +18,7 @@ Dự án tuân thủ nghiêm ngặt mô hình thiết kế **Model - View - Cont
 * **📂 Model:**
     * Xử lý logic nghiệp vụ: Thêm/Xóa node (môn học).
     * Thực thi thuật toán Tarjan để tính toán SCC.
-    * `FileManager`: Module chịu trách nhiệm lưu trữ và đọc dữ liệu từ file (JSON/CSV).
+    * `FileManager`: Module chịu trách nhiệm lưu trữ và đọc dữ liệu từ file (JSON).
 * **💻 View:**
     * Giao diện người dùng xây dựng bằng `PyQt6`.
     * Hiển thị biểu đồ trực quan sử dụng `matplotlib` được nhúng vào PyQt.

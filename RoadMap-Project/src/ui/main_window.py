@@ -35,7 +35,7 @@ class MainWindow(QMainWindow):
 
 
         # 1. NHẬP DỮ LIỆU
-        g_input = QGroupBox("1. Quản lý Dữ liệu") # Nhóm nhập dữ liệu
+        g_input = QGroupBox("Quản lý Dữ liệu") # Nhóm nhập dữ liệu
         l_input = QVBoxLayout() # Bố cục dọc cho nhóm
         
         # Thêm môn (Có tên môn để hiển thị)
@@ -60,16 +60,29 @@ class MainWindow(QMainWindow):
         g_input.setLayout(l_input)
 
         # 2. XÓA DỮ LIỆU
-        g_del = QGroupBox("2. Xóa Dữ liệu")
+        g_del = QGroupBox("Xóa Dữ liệu")
         l_del = QVBoxLayout()
+        # Xóa môn
         self.in_del = QLineEdit(); self.in_del.setPlaceholderText("Nhập mã môn cần xóa")
         btn_del = QPushButton("Xóa Môn"); btn_del.clicked.connect(self.delete_node)
         btn_del.setStyleSheet("background-color: #552222; color: #ffcccc;") # Màu đỏ trầm
         l_del.addWidget(self.in_del); l_del.addWidget(btn_del)
+
+        # Xóa liên kết (u -> v)
+        l_del.addSpacing(6)
+        l_del.addWidget(QLabel("--- Xóa Liên Kết (u -> v) ---"))
+        self.in_u_del = QLineEdit(); self.in_u_del.setPlaceholderText("Môn trước (u)")
+        self.in_v_del = QLineEdit(); self.in_v_del.setPlaceholderText("Môn sau (v)")
+        btn_del_edge = QPushButton("Xóa Liên Kết"); btn_del_edge.clicked.connect(self.delete_edge)
+        btn_del_edge.setStyleSheet("background-color: #553322; color: #ffebeb;")
+        l_del.addWidget(self.in_u_del)
+        l_del.addWidget(self.in_v_del)
+        l_del.addWidget(btn_del_edge)
+
         g_del.setLayout(l_del)
 
         # 3. KẾT QUẢ TARJAN
-        g_tarjan = QGroupBox("3. Phân tích Tarjan (SCC)")
+        g_tarjan = QGroupBox("Phân tích Tarjan (SCC)")
         l_tarjan = QVBoxLayout()
         
         self.txt_result = QTextEdit()
@@ -87,7 +100,7 @@ class MainWindow(QMainWindow):
         btn_run.setStyleSheet("background-color: #cc0000; color: white; font-weight: bold; padding: 10px; font-size: 14px;")
         btn_run.clicked.connect(self.run_tarjan)
         
-        btn_reset = QPushButton("Reset Toàn bộ môn học"); btn_reset.clicked.connect(self.reset_app)
+        btn_reset = QPushButton("Xóa toàn bộ môn học"); btn_reset.clicked.connect(self.reset_app)
 
         l_tarjan.addWidget(btn_run)
         l_tarjan.addWidget(self.txt_result)
@@ -160,6 +173,28 @@ class MainWindow(QMainWindow):
                     QMessageBox.warning(self, "Lỗi", msg)
             except AttributeError:
                 QMessageBox.critical(self, "Lỗi Code", "Controller chưa có hàm delete_subject. Hãy cập nhật Controller!")
+
+    def delete_edge(self): # Xóa liên kết u -> v
+        u = self.in_u_del.text()
+        v = self.in_v_del.text()
+        if not u or not v:
+            return
+
+        reply = QMessageBox.question(self, 'Xác nhận', 
+                                     f"Bạn có chắc muốn xóa liên kết {u} -> {v}?",
+                                     QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+
+        if reply == QMessageBox.StandardButton.Yes:
+            try:
+                ok, msg = self.controller.delete_dependency(u, v)
+                if ok:
+                    self.in_u_del.clear(); self.in_v_del.clear()
+                    self.refresh_graph()
+                    QMessageBox.information(self, "Thành công", msg)
+                else:
+                    QMessageBox.warning(self, "Lỗi", msg)
+            except AttributeError:
+                QMessageBox.critical(self, "Lỗi Code", "Controller chưa có hàm delete_dependency. Hãy cập nhật Controller!")
 
     def run_tarjan(self): # Chạy thuật toán Tarjan và hiển thị kết quả
         # 1. Chạy Tarjan

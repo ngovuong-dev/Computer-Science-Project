@@ -6,7 +6,7 @@
 
 from PyQt6.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, 
                              QLabel, QLineEdit, QPushButton, QMessageBox, 
-                             QGroupBox, QTextEdit, QScrollArea)
+                             QGroupBox, QTreeWidget, QTreeWidgetItem, QSizePolicy, QScrollArea)
 from PyQt6.QtCore import Qt
 from src.controllers.roadmap_controller import RoadmapController
 from src.ui.widgets.graph_canvas import GraphCanvas
@@ -26,7 +26,7 @@ class MainWindow(QMainWindow):
         # --- PANEL TRÁI ---
         left_scroll = QScrollArea() # Thêm thanh cuộn đề phòng màn hình bé
         left_scroll.setWidgetResizable(True) # Cho phép thay đổi kích thước
-        left_scroll.setFixedWidth(300) # Chiều rộng cố định cho panel trái
+        left_scroll.setFixedWidth(500) # Chiều rộng cố định cho panel trái (mở rộng để bảng rõ hơn)
         
         left_panel = QWidget() # Panel bên trái
         left_panel.setStyleSheet("background-color: #1e1e1e; color: #e0e0e0;") # Style Dark Mode cho panel trái
@@ -34,7 +34,7 @@ class MainWindow(QMainWindow):
         left_layout = QVBoxLayout(left_panel) # Bố cục dọc
 
 
-        # 1. NHẬP DỮ LIỆU
+        # -- NHẬP DỮ LIỆU --
         g_input = QGroupBox("Quản lý Dữ liệu") # Nhóm nhập dữ liệu
         l_input = QVBoxLayout() # Bố cục dọc cho nhóm
         
@@ -50,7 +50,7 @@ class MainWindow(QMainWindow):
         l_input.addSpacing(10)
         
         # Thêm cạnh
-        l_input.addWidget(QLabel("--- Nối Môn Tiên Quyết ---"))
+        l_input.addWidget(QLabel("--- Thêm Liên Kết Môn Học ---"))
         self.in_u = QLineEdit(); self.in_u.setPlaceholderText("Môn học trước")
         self.in_v = QLineEdit(); self.in_v.setPlaceholderText("Môn học sau")
         btn_link = QPushButton("Thêm Liên Kết"); btn_link.clicked.connect(self.add_edge)
@@ -59,7 +59,7 @@ class MainWindow(QMainWindow):
         l_input.addWidget(btn_link)
         g_input.setLayout(l_input)
 
-        # 2. XÓA DỮ LIỆU
+        # -- XÓA DỮ LIỆU --
         g_del = QGroupBox("Xóa Dữ liệu")
         l_del = QVBoxLayout()
         # Xóa môn
@@ -68,11 +68,11 @@ class MainWindow(QMainWindow):
         btn_del.setStyleSheet("background-color: #552222; color: #ffcccc;") # Màu đỏ trầm
         l_del.addWidget(self.in_del); l_del.addWidget(btn_del)
 
-        # Xóa liên kết (u -> v)
+        # Xóa liên kết môn học
         l_del.addSpacing(6)
-        l_del.addWidget(QLabel("--- Xóa Liên Kết (u -> v) ---"))
-        self.in_u_del = QLineEdit(); self.in_u_del.setPlaceholderText("Môn trước (u)")
-        self.in_v_del = QLineEdit(); self.in_v_del.setPlaceholderText("Môn sau (v)")
+        l_del.addWidget(QLabel("--- Xóa Liên Kết Môn Học ---"))
+        self.in_u_del = QLineEdit(); self.in_u_del.setPlaceholderText("Môn trước")
+        self.in_v_del = QLineEdit(); self.in_v_del.setPlaceholderText("Môn sau")
         btn_del_edge = QPushButton("Xóa Liên Kết"); btn_del_edge.clicked.connect(self.delete_edge)
         btn_del_edge.setStyleSheet("background-color: #553322; color: #ffebeb;")
         l_del.addWidget(self.in_u_del)
@@ -81,29 +81,33 @@ class MainWindow(QMainWindow):
 
         g_del.setLayout(l_del)
 
-        # 3. KẾT QUẢ TARJAN
+        # -- KẾT QUẢ TARJAN --
         g_tarjan = QGroupBox("Phân tích Tarjan (SCC)")
         l_tarjan = QVBoxLayout()
         
-        self.txt_result = QTextEdit()
-        self.txt_result.setReadOnly(True)
-        # Style hiển thị
-        self.txt_result.setStyleSheet("""
-            background-color: #111; 
-            color: #00ff00; 
-            font-family: Consolas; 
-            font-size: 13px;
-            border: 1px solid #444;
+        # Kết quả Tarjan hiển thị dưới dạng cây để rõ ràng mã + tên
+        self.tree_result = QTreeWidget()
+        self.tree_result.setColumnCount(2)
+        self.tree_result.setHeaderLabels(["Mã", "Tên"]) 
+        self.tree_result.setRootIsDecorated(True)
+        self.tree_result.setAlternatingRowColors(True)
+        # Đặt màu nền sáng và chữ tối cho tree_result để đảm bảo độ tương phản
+        self.tree_result.setStyleSheet("""
+            QTreeWidget { background-color: #ffffff; color: #000000; }
+            QTreeWidget::item:alternate { background-color: #f7f7f7; }
         """)
+        # Tăng kích thước tối thiểu
+        self.tree_result.setMinimumHeight(400)
+        self.tree_result.setMinimumWidth(380)
         
-        btn_run = QPushButton("🔍 CHẠY KIỂM TRA LOGIC")
+        btn_run = QPushButton("CHẠY KIỂM TRA LOGIC")
         btn_run.setStyleSheet("background-color: #cc0000; color: white; font-weight: bold; padding: 10px; font-size: 14px;")
         btn_run.clicked.connect(self.run_tarjan)
         
         btn_reset = QPushButton("Xóa toàn bộ môn học"); btn_reset.clicked.connect(self.reset_app)
 
         l_tarjan.addWidget(btn_run)
-        l_tarjan.addWidget(self.txt_result)
+        l_tarjan.addWidget(self.tree_result)
         l_tarjan.addWidget(btn_reset)
         g_tarjan.setLayout(l_tarjan)
 
@@ -197,43 +201,37 @@ class MainWindow(QMainWindow):
                 QMessageBox.critical(self, "Lỗi Code", "Controller chưa có hàm delete_dependency. Hãy cập nhật Controller!")
 
     def run_tarjan(self): # Chạy thuật toán Tarjan và hiển thị kết quả
-        # 1. Chạy Tarjan
+        # Chạy Tarjan
         cycles, safe_nodes = self.controller.run_tarjan_algorithm()
         
-        # 2. Lấy dữ liệu tên môn học để hiển thị cho đẹp
+        # Lấy dữ liệu tên môn học để hiển thị cho đẹp
         all_data = self.controller.get_graph_data()["subjects"]
         
-        report = "=== KẾT QUẢ PHÂN TÍCH TARJAN ===\n\n"
-        
-        # Hiển thị Vòng lặp (Lỗi)
+        # Clear previous results
+        self.tree_result.clear()
+
+        # Hiển thị Vòng lặp (nếu có)
         if cycles:
-            report += f"❌ CẢNH BÁO: PHÁT HIỆN {len(cycles)} VÒNG LẶP!\n"
-            report += "Sinh viên sẽ bị kẹt, không thể tốt nghiệp.\n"
-            report += "-" * 30 + "\n"
-            
+            root_cycles = QTreeWidgetItem(self.tree_result, [f"❌ VÒNG LẶP ({len(cycles)})", ""])
             for i, group in enumerate(cycles):
-                report += f"🛑 NHÓM VÒNG LẶP #{i+1}:\n"
+                grp_item = QTreeWidgetItem(root_cycles, [f"NHÓM #{i+1}", ""]) 
                 for code in group:
-                    # Lấy tên môn, nếu không có thì để N/A
                     name = all_data.get(code, {}).get("name", "N/A")
-                    report += f"   • [{code}] - {name}\n"
-                report += "\n"
+                    QTreeWidgetItem(grp_item, [code, name])
         else:
-            report += "✅ CHÚC MỪNG: LỘ TRÌNH HỢP LỆ.\n"
-            report += "Không phát hiện phụ thuộc vòng.\n\n"
-            
-        report += "-" * 30 + "\n"
-        
+            QTreeWidgetItem(self.tree_result, ["✅ LỘ TRÌNH HỢP LỆ", "Không phát hiện phụ thuộc vòng."])
+
         # Hiển thị các môn an toàn
         if safe_nodes:
-            report += f"ℹ️ Các môn an toàn ({len(safe_nodes)} môn):\n"
+            root_safe = QTreeWidgetItem(self.tree_result, [f"ℹ️ Môn an toàn ({len(safe_nodes)})", ""]) 
             for code in safe_nodes:
                 name = all_data.get(code, {}).get("name", "N/A")
-                report += f"   ✓ {code}: {name}\n"
+                QTreeWidgetItem(root_safe, [code, name])
 
-        self.txt_result.setText(report)
+        # Mở rộng để người dùng nhìn thấy nhanh
+        self.tree_result.expandAll()
 
-        # 3. Highlight màu đỏ trên đồ thị
+        # Highlight màu đỏ trên đồ thị
         nodes_in_cycle = []
         for group in cycles:
             nodes_in_cycle.extend(group)
@@ -243,42 +241,25 @@ class MainWindow(QMainWindow):
         if cycles:
             QMessageBox.critical(self, "Lỗi Logic", "Phát hiện vòng lặp môn học! Xem chi tiết ở khung kết quả.")
 
-    # --- HÀM HỖ TRỢ SETUP STYLE CHO NÚT TRÒN ---
+    # --- HÀM HỖ TRỢ SETUP  ---
     def setup_floating_button(self, btn, bg_color):
         btn.setCursor(Qt.CursorShape.PointingHandCursor)
-        btn.setFixedSize(50, 50)
-        # Style bo tròn, viền trắng, đổ bóng nhẹ
-        btn.setStyleSheet(f"""
-            QPushButton {{
-                background-color: {bg_color}; 
-                color: white; 
-                font-size: 24px;
-                border-radius: 25px; 
-                border: 2px solid #555;
-            }}
-            QPushButton:hover {{ 
-                background-color: #666666; 
-                border-color: white;
-            }}
-            QPushButton:pressed {{
-                background-color: #222;
-            }}
-        """)
+        btn.setFixedSize(30, 30)
     
-    # === CẬP NHẬT VỊ TRÍ KHI KÉO DÃN CỬA SỔ ===
+    # --- CẬP NHẬT VỊ TRÍ KHI KÉO DÃN CỬA SỔ ---
     def resizeEvent(self, event):
         # Lấy kích thước cửa sổ hiện tại
         w = self.width()
         h = self.height()
         
         # Khoảng cách từ lề phải
-        margin_right = 70
+        margin_right = 50
         
-        # 1. Nút Zoom Out
-        self.btn_zoom_out.move(w - margin_right, h - 130) # 70 + 60
+        # Nút Zoom Out
+        self.btn_zoom_out.move(w - margin_right, h - 100) # 70 + 60
         
-        # 2. Nút Zoom In
-        self.btn_zoom_in.move(w - margin_right, h - 190)  # 130 + 60
+        # Nút Zoom In
+        self.btn_zoom_in.move(w - margin_right, h - 140)  # 130 + 60
         
         super().resizeEvent(event)
 
@@ -286,7 +267,7 @@ class MainWindow(QMainWindow):
         confirm = QMessageBox.question(self, "Reset", "Xóa sạch dữ liệu làm lại từ đầu?", QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
         if confirm == QMessageBox.StandardButton.Yes:
             self.controller.clear_data()
-            self.txt_result.clear()
+            self.tree_result.clear()
             self.refresh_graph()
 
     def refresh_graph(self, highlight=[]): # Cập nhật lại đồ thị

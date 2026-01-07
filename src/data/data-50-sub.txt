@@ -1,0 +1,109 @@
+{
+  "subjects": {
+    "SUB001": {"name": "Môn thử 001"},
+    "SUB002": {"name": "Môn thử 002"},
+    "SUB003": {"name": "Môn thử 003"},
+    "SUB004": {"name": "Môn thử 004"},
+    "SUB005": {"name": "Môn thử 005"},
+    "SUB006": {"name": "Môn thử 006"},
+    "SUB007": {"name": "Môn thử 007"},
+    "SUB008": {"name": "Môn thử 008"},
+    "SUB009": {"name": "Môn thử 009"},
+    "SUB010": {"name": "Môn thử 010"},
+    "SUB011": {"name": "Môn thử 011"},
+    "SUB012": {"name": "Môn thử 012"},
+    "SUB013": {"name": "Môn thử 013"},
+    "SUB014": {"name": "Môn thử 014"},
+    "SUB015": {"name": "Môn thử 015"},
+    "SUB016": {"name": "Môn thử 016"},
+    "SUB017": {"name": "Môn thử 017"},
+    "SUB018": {"name": "Môn thử 018"},
+    "SUB019": {"name": "Môn thử 019"},
+    "SUB020": {"name": "Môn thử 020"},
+    "SUB021": {"name": "Môn thử 021"},
+    "SUB022": {"name": "Môn thử 022"},
+    "SUB023": {"name": "Môn thử 023"},
+    "SUB024": {"name": "Môn thử 024"},
+    "SUB025": {"name": "Môn thử 025"},
+    "SUB026": {"name": "Môn thử 026"},
+    "SUB027": {"name": "Môn thử 027"},
+    "SUB028": {"name": "Môn thử 028"},
+    "SUB029": {"name": "Môn thử 029"},
+    "SUB030": {"name": "Môn thử 030"},
+    "SUB031": {"name": "Môn thử 031"},
+    "SUB032": {"name": "Môn thử 032"},
+    "SUB033": {"name": "Môn thử 033"},
+    "SUB034": {"name": "Môn thử 034"},
+    "SUB035": {"name": "Môn thử 035"},
+    "SUB036": {"name": "Môn thử 036"},
+    "SUB037": {"name": "Môn thử 037"},
+    "SUB038": {"name": "Môn thử 038"},
+    "SUB039": {"name": "Môn thử 039"},
+    "SUB040": {"name": "Môn thử 040"},
+    "SUB041": {"name": "Môn thử 041"},
+    "SUB042": {"name": "Môn thử 042"},
+    "SUB043": {"name": "Môn thử 043"},
+    "SUB044": {"name": "Môn thử 044"},
+    "SUB045": {"name": "Môn thử 045"},
+    "SUB046": {"name": "Môn thử 046"},
+    "SUB047": {"name": "Môn thử 047"},
+    "SUB048": {"name": "Môn thử 048"},
+    "SUB049": {"name": "Môn thử 049"},
+    "SUB050": {"name": "Môn thử 050"}
+  },
+  "edges": [
+    ["SUB001", "SUB002"],
+    ["SUB002", "SUB003"],
+    ["SUB003", "SUB001"],   
+
+    ["SUB004", "SUB005"],
+    ["SUB005", "SUB006"],
+
+    ["SUB007", "SUB008"],
+
+    ["SUB009", "SUB010"],
+    ["SUB010", "SUB011"],
+    ["SUB011", "SUB010"],
+
+    ["SUB012", "SUB013"],
+    ["SUB013", "SUB014"],
+
+    ["SUB015", "SUB016"],
+    ["SUB016", "SUB017"],
+
+    ["SUB018", "SUB019"],
+    ["SUB019", "SUB020"],
+    ["SUB020", "SUB021"],
+    ["SUB021", "SUB022"],
+    ["SUB022", "SUB023"],
+    ["SUB023", "SUB020"],
+
+    ["SUB024", "SUB025"],
+    ["SUB025", "SUB026"],
+    ["SUB026", "SUB027"],
+
+    ["SUB028", "SUB029"],
+    ["SUB029", "SUB030"],
+
+    ["SUB031", "SUB032"],
+    ["SUB032", "SUB033"],
+    ["SUB033", "SUB034"],
+
+    ["SUB035", "SUB036"],
+    ["SUB036", "SUB037"],
+
+    ["SUB038", "SUB039"],
+    ["SUB039", "SUB040"],
+
+    ["SUB041", "SUB042"],
+    ["SUB042", "SUB043"],
+    ["SUB043", "SUB044"],
+    ["SUB044", "SUB045"],
+
+    ["SUB046", "SUB047"],
+    ["SUB047", "SUB048"],
+    ["SUB048", "SUB049"],
+    ["SUB049", "SUB050"]
+  ]
+}
+

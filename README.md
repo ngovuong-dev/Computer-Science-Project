@@ -1,51 +1,123 @@
-# 🎓 STU Roadmap Manager - Tarjan Core
+# Roadmap Manager - Tarjan Algorithm
 
-![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
-![Algorithm](https://img.shields.io/badge/Algorithm-Tarjan-red)
+![Python](https://img.shields.io/badge/Python-3.11-blue)
+![GUI](https://img.shields.io/badge/GUI-PyQt6-green)
 
-**STU Roadmap Manager** là ứng dụng hỗ trợ xây dựng lộ trình môn học và kiểm tra tính logic của chương trình đào tạo. Ứng dụng tập trung vào việc phát hiện lỗi vòng lặp (cycle) - nguyên nhân khiến sinh viên không thể tốt nghiệp - bằng thuật toán **Tarjan**.
+> **Roadmap Manager** là ứng dụng quản lý lộ trình học tập dựa trên đồ thị, sử dụng thuật toán Tarjan để phân tích sự phụ thuộc và phát hiện các vòng lặp trong lộ trình.
 
----
+## Giới thiệu
 
-## 🚀 Tính năng chính
+Dự án này được xây dựng để giải quyết bài toán quản lý các môn học hoặc tác vụ có tính phụ thuộc lẫn nhau. Ứng dụng cho phép người dùng trực quan hóa lộ trình dưới dạng đồ thị có hướng và sử dụng thuật toán Tarjan để tìm ra các Thành phần Liên thông Mạnh.
 
-Ứng dụng cung cấp 3 chức năng cốt lõi để thao tác với đồ thị môn học:
+Nếu một thành phần liên thông mạnh có nhiều hơn 1 đỉnh, điều đó báo hiệu một "vòng lặp chết" (Dead lock) trong lộ trình học tập. (Ví dụ: Môn A cần Môn B, nhưng Môn B lại cần Môn C, Môn D lại cần môn A và B).
 
-### 1. Thêm Môn học (Add Subject)
-* Cho phép nhập **Mã môn** và **Tên môn**.
-* Thiết lập mối quan hệ tiên quyết (Môn A là điều kiện để học Môn B).
-* Tự động vẽ node và mũi tên lên đồ thị ngay sau khi thêm.
+## Kiến trúc Hệ thống (MVC)
 
-### 2. Xóa Môn học (Delete Subject)
-* Nhập mã môn cần xóa.
-* Hệ thống sẽ xóa node đó và **tự động loại bỏ tất cả các liên kết** (mũi tên) đi vào hoặc đi ra từ node đó, đảm bảo đồ thị không bị lỗi.
+Dự án tuân thủ nghiêm ngặt mô hình thiết kế **Model - View - Controller**:
 
-### 3. Kiểm tra Logic (Run Tarjan)
-* Kích hoạt thuật toán **Tarjan** để duyệt toàn bộ đồ thị.
-* **Kết quả:**
-    * Nếu lộ trình hợp lệ: Thông báo an toàn.
-    * Nếu có vòng lặp (Ví dụ: A cần B, B cần A): Hệ thống sẽ **tô màu đỏ** các môn học gây lỗi để cảnh báo người dùng.
+* ** Model:**
+    * Xử lý logic nghiệp vụ: Thêm/Xóa node (môn học).
+    * Thực thi thuật toán Tarjan để tính toán SCC.
+    * `storage`: Module chịu trách nhiệm lưu trữ và đọc dữ liệu từ file (JSON).
+* ** View:**
+    * Giao diện người dùng xây dựng bằng `PyQt6`.
+    * Hiển thị biểu đồ trực quan sử dụng `matplotlib` được nhúng vào PyQt.
+    * Các nhập liệu và bảng hiển thị danh sách môn học.
+* ** Controller:**
+    * Điều phối tương tác giữa View và Model.
+    * Nhận tín hiệu từ nút bấm (Thêm, Kết nối, Xóa, Xóa tất cả), gọi Model xử lý và cập nhật lại View.
 
----
+## Tính năng Chính
 
-## 🛠️ Công nghệ sử dụng
+1.  **Quản lý Môn học (Nodes):** Thêm mới, xóa môn học.
+2.  **Quản lý Liên kết (Edges):** Tạo mới, xóa mối quan hệ tiên quyết giữa các môn học.
+3.  **Trực quan hóa Đồ thị:** Vẽ đồ thị tự động với `matplotlib`, hiển thị rõ hướng mũi tên.
+4.  **Phân tích Tarjan:**
+    * Tự động chạy thuật toán Tarjan.
+    * Tô màu nổi bật các nhóm SCC (Thành phần liên thông mạnh).
+    * Cảnh báo nếu phát hiện vòng lặp luẩn quẩn trong lộ trình.
+5.  **Lưu trữ Dữ liệu:** Lưu và tải lại lộ trình thông qua module `storage` và bằng file `Json`.
+6. **Phóng to và thu nhỏ Đồ thị:** 2 nút tròn cộng và trừ có nhiệm vụ phóng to thu nhỏ đồ thị để dễ xem hơn.
 
-* **Ngôn ngữ:** Python 3.x
-* **Giao diện:** PyQt6
-* **Xử lý đồ thị:** NetworkX (Cấu trúc dữ liệu), Matplotlib (Vẽ hình)
-* **Thuật toán:** Tarjan's Algorithm (Tìm thành phần liên thông mạnh - SCC)
+## Thuật toán Tarjan (Pseudo-code)
 
----
+Thuật toán sử dụng cơ chế **Duyệt chiều sâu (DFS)** kết hợp với **Ngăn xếp (Stack)** để tìm SCC với độ phức tạp thời gian O(|V| + |E|).
 
-## ⚙️ Cài đặt và Chạy chương trình
+```text
+ALGORITHM Tarjan
+INPUT:  Đồ thị G = (Vertices V, Edges E)
+OUTPUT: Danh sách các thành phần liên thông mạnh (Strongly Connected Components)
 
-### Bước 1: Cài đặt thư viện
+// Khởi tạo biến toàn cục với các giá trị mặc định
+id_counter = 0
+stack = Empty Stack
+ids = Array of size |V| initialized to -1 (unvisited)
+low = Array of size |V| initialized to 0
+onStack = Array of size |V| initialized to False
+scc_result = Empty List
+// Chạy vòng lập các node trong đồ thị để đặt giá trị mặc định
+For node in graph:
+    ids = -1
+    low = 0
+    onStack = False
+
+// Hàm duyệt theo chiều sâu (Depth First Search)
+FUNCTION TARJAN(at):
+    stack.push(at)
+    onStack[at] = True
+    ids[at] = low[at] = id_counter
+    id_counter = id_counter + 1
+
+    // Duyệt qua các node kề (neighbors)
+    FOR each node 'to' in Neighbors(at):
+        IF 'to' not in self.ids THEN
+            // Trường hợp 1: Node con chưa được khởi tạo
+            ids = -1
+            low = 0
+            onStack = False
+        ELSE IF ids[to] == -1 THEN
+            // Trường hợp 2: Node con chưa được thăm
+            DFS(to)
+            low[at] = MIN(low[at], low[to])
+        ELSE IF onStack[to] == True THEN
+            // Trường hợp 2: Node con đang trong stack (Back Edge)
+            // Đây là dấu hiệu của vòng lặp
+            low[at] = MIN(low[at], ids[to])
+
+    // Kiểm tra chốt của SCC (Root of SCC)
+    IF ids[at] == low[at] THEN
+        new_component = Empty List
+        WHILE True THEN:
+            node = stack.pop()
+            onStack[node] = False
+            ADD node TO new_component
+            IF node == at THEN
+                break
+        ADD new_component TO scc_result
+FUNCTION RUN():
+    // Khởi chạy DFS từ mỗi node chưa được khám phá
+    FOR node in list(graph.kes()) THEN
+        // Nếu node chưa được khám phá, bắt đầu DFS từ đó
+        TARJAN(node)
+    RETURN scc_result
+```
+
+## Cài đặt và Chạy chương trình
+
+### Bước 1: Cài đặt thư viện python cần thiết để chạy chương trình
 Mở Terminal tại thư mục dự án và chạy lệnh:
+> Chương trình này được viết bằng ngôn ngữ python 3.11 nên sử dụng đúng phiên bản để tránh lỗi
 
 ```bash
-pip install PyQt6 networkx matplotlib
+pip install PyQt6 networkx matplotlib FileManager
 ```
-### Bước 2: Chạy chương trình
+or
+```bash
+pip install -r requirments.txt
+```
+
+### Bước 2: Chạy chương trình python
 Mở Terminal tại thư mục dự án và chạy lệnh:
 ```bash
 python main.py
+```

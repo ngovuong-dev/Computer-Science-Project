@@ -9,7 +9,7 @@
 
 Dự án này được xây dựng để giải quyết bài toán quản lý các môn học hoặc tác vụ có tính phụ thuộc lẫn nhau. Ứng dụng cho phép người dùng trực quan hóa lộ trình dưới dạng đồ thị có hướng và sử dụng thuật toán Tarjan để tìm ra các Thành phần Liên thông Mạnh.
 
-Nếu một thành phần liên thông mạnh có nhiều hơn 1 đỉnh, điều đó báo hiệu một "vòng lặp chết" (Dead lock) trong lộ trình học tập (Ví dụ: Môn A cần Môn B, nhưng Môn B lại cần Môn C, Môn D lại cần môn A và B).
+Nếu một thành phần liên thông mạnh có nhiều hơn 1 đỉnh, điều đó báo hiệu một "vòng lặp chết" (Dead lock) trong lộ trình học tập. (Ví dụ: Môn A cần Môn B, nhưng Môn B lại cần Môn C, Môn D lại cần môn A và B).
 
 ## 🏗️ Kiến trúc Hệ thống (MVC)
 
@@ -18,26 +18,26 @@ Dự án tuân thủ nghiêm ngặt mô hình thiết kế **Model - View - Cont
 * **📂 Model:**
     * Xử lý logic nghiệp vụ: Thêm/Xóa node (môn học).
     * Thực thi thuật toán Tarjan để tính toán SCC.
-    * `FileManager`: Module chịu trách nhiệm lưu trữ và đọc dữ liệu từ file (JSON).
+    * `storage`: Module chịu trách nhiệm lưu trữ và đọc dữ liệu từ file (JSON).
 * **💻 View:**
     * Giao diện người dùng xây dựng bằng `PyQt6`.
     * Hiển thị biểu đồ trực quan sử dụng `matplotlib` được nhúng vào PyQt.
     * Các nhập liệu và bảng hiển thị danh sách môn học.
 * **🎮 Controller:**
     * Điều phối tương tác giữa View và Model.
-    * Nhận tín hiệu từ nút bấm (Add, Connect, Analyze), gọi Model xử lý và cập nhật lại View.
+    * Nhận tín hiệu từ nút bấm (Thêm, Kết nối, Xóa, Xóa tất cả), gọi Model xử lý và cập nhật lại View.
 
 ## ✨ Tính năng Chính
 
 1.  **Quản lý Môn học (Nodes):** Thêm mới, xóa môn học.
-2.  **Quản lý Liên kết (Edges):** Tạo mối quan hệ tiên quyết giữa các môn học.
-3.  **Trực quan hóa Đồ thị:** Vẽ đồ thị tự động với `matplotlib`, hiển thị rõ hướng mũi tên và trọng số (nếu có).
+2.  **Quản lý Liên kết (Edges):** Tạo mới, xóa mối quan hệ tiên quyết giữa các môn học.
+3.  **Trực quan hóa Đồ thị:** Vẽ đồ thị tự động với `matplotlib`, hiển thị rõ hướng mũi tên.
 4.  **Phân tích Tarjan:**
     * Tự động chạy thuật toán Tarjan.
     * Tô màu nổi bật các nhóm SCC (Thành phần liên thông mạnh).
     * Cảnh báo nếu phát hiện vòng lặp luẩn quẩn trong lộ trình.
-5.  **Lưu trữ Dữ liệu:** Lưu và tải lại lộ trình thông qua module `FileManager` và bằng file `Json`.
-6. **Phóng to và thu nhỏ Đồ thị:** 2 nút tròn có nhiệm vụ phóng to thu nhỏ đồ thị để dễ xem hơn.
+5.  **Lưu trữ Dữ liệu:** Lưu và tải lại lộ trình thông qua module `storage` và bằng file `Json`.
+6. **Phóng to và thu nhỏ Đồ thị:** 2 nút tròn cộng và trừ có nhiệm vụ phóng to thu nhỏ đồ thị để dễ xem hơn.
 
 ## 🧮 Thuật toán Tarjan (Pseudo-code)
 
@@ -109,12 +109,10 @@ Mở Terminal tại thư mục dự án và chạy lệnh:
 > Chương trình này được viết bằng ngôn ngữ python 3.11 nên sử dụng đúng phiên bản để tránh lỗi
 
 ```bash
-pip install --upgrade pip
 pip install PyQt6 networkx matplotlib FileManager
 ```
 or
 ```bash
-pip install --upgrade pip
 pip install -r requirments.txt
 ```
 
@@ -122,3 +120,4 @@ pip install -r requirments.txt
 Mở Terminal tại thư mục dự án và chạy lệnh:
 ```bash
 python main.py
+```

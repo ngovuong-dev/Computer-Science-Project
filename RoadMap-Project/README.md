@@ -1,33 +1,33 @@
-# 🗺️ Roadmap Manager - Tarjan Algorithm
+# Roadmap Manager - Tarjan Algorithm
 
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
 ![GUI](https://img.shields.io/badge/GUI-PyQt6-green)
 
 > **Roadmap Manager** là ứng dụng quản lý lộ trình học tập/dự án dựa trên đồ thị, sử dụng thuật toán Tarjan để phân tích sự phụ thuộc và phát hiện các vòng lặp trong lộ trình.
 
-## 📖 Giới thiệu
+## Giới thiệu
 
 Dự án này được xây dựng để giải quyết bài toán quản lý các môn học hoặc tác vụ có tính phụ thuộc lẫn nhau. Ứng dụng cho phép người dùng trực quan hóa lộ trình dưới dạng đồ thị có hướng và sử dụng thuật toán Tarjan để tìm ra các Thành phần Liên thông Mạnh.
 
 Nếu một thành phần liên thông mạnh có nhiều hơn 1 đỉnh, điều đó báo hiệu một "vòng lặp chết" (Dead lock) trong lộ trình học tập. (Ví dụ: Môn A cần Môn B, nhưng Môn B lại cần Môn C, Môn D lại cần môn A và B).
 
-## 🏗️ Kiến trúc Hệ thống (MVC)
+## Kiến trúc Hệ thống (MVC)
 
 Dự án tuân thủ nghiêm ngặt mô hình thiết kế **Model - View - Controller**:
 
-* **📂 Model:**
+* ** Model:**
     * Xử lý logic nghiệp vụ: Thêm/Xóa node (môn học).
     * Thực thi thuật toán Tarjan để tính toán SCC.
     * `storage`: Module chịu trách nhiệm lưu trữ và đọc dữ liệu từ file (JSON).
-* **💻 View:**
+* ** View:**
     * Giao diện người dùng xây dựng bằng `PyQt6`.
     * Hiển thị biểu đồ trực quan sử dụng `matplotlib` được nhúng vào PyQt.
     * Các nhập liệu và bảng hiển thị danh sách môn học.
-* **🎮 Controller:**
+* ** Controller:**
     * Điều phối tương tác giữa View và Model.
     * Nhận tín hiệu từ nút bấm (Thêm, Kết nối, Xóa, Xóa tất cả), gọi Model xử lý và cập nhật lại View.
 
-## ✨ Tính năng Chính
+## Tính năng Chính
 
 1.  **Quản lý Môn học (Nodes):** Thêm mới, xóa môn học.
 2.  **Quản lý Liên kết (Edges):** Tạo mới, xóa mối quan hệ tiên quyết giữa các môn học.
@@ -39,7 +39,7 @@ Dự án tuân thủ nghiêm ngặt mô hình thiết kế **Model - View - Cont
 5.  **Lưu trữ Dữ liệu:** Lưu và tải lại lộ trình thông qua module `storage` và bằng file `Json`.
 6. **Phóng to và thu nhỏ Đồ thị:** 2 nút tròn cộng và trừ có nhiệm vụ phóng to thu nhỏ đồ thị để dễ xem hơn.
 
-## 🧮 Thuật toán Tarjan (Pseudo-code)
+## Thuật toán Tarjan (Pseudo-code)
 
 Thuật toán sử dụng cơ chế **Duyệt chiều sâu (DFS)** kết hợp với **Ngăn xếp (Stack)** để tìm SCC với độ phức tạp thời gian O(|V| + |E|).
 
@@ -102,7 +102,7 @@ FUNCTION RUN():
     RETURN scc_result
 ```
 
-## ⚙️ Cài đặt và Chạy chương trình
+## Cài đặt và Chạy chương trình
 
 ### Bước 1: Cài đặt thư viện python cần thiết để chạy chương trình
 Mở Terminal tại thư mục dự án và chạy lệnh:
